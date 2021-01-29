@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="module" src="./wh-corset-calc-module/index.js"></script>
+    </head>
+    <body>
+        <div>
+            <p>Вес:</p>
+            <p><input id="wh-cost-calc-input-weight" type="number"></p>
+            <p>Рост:</p>
+            <p><input id="wh-cost-calc-input-height" type="number"></p>
+            <p>Возраст:</p>
+            <p><input id="wh-cost-calc-input-age" type="number"></p>
+            <p>Тип корсета:</p>
+            <p>
+                <select id="wh-cost-calc-input-corset-type">
+                    <option value="0">Монолит</option>
+                    <option value="1">Черепашка</option>
+                </select>
+            </p>
+            <p>Высота корсета:</p>
+            <p>
+                <select id="wh-cost-calc-input-corset-height-type">
+                    <option disabled="">До/Ниже углов лопаток</option>
+                    <option value="0">Низкий</option>
+                    <option value="1">Высокий</option>
+                </select>
+            </p>
+            <p>Расчетная стоимость: <b id="wh-cost-calc-output-result"></b> руб.</p>
+        </div>
+    </body>
+</html>
