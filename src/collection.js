@@ -10,10 +10,20 @@ export const corsetCollection = {
     0: {
         initialCost: 23000, 
         ageModifier: {
-            child: 2000, 
-            adult: 7000
+            child: {
+                borders: {
+                    top: 18
+                }, 
+                cost: 2000
+            }, 
+            adult: {
+                borders: {
+                    bottom: 18
+                }, 
+                cost: 7000
+            }
         }, 
-        corsetHeightModifier: {
+        corsetHeights: {
             0: 0, 
             1: 10000
         }, 
@@ -46,10 +56,20 @@ export const corsetCollection = {
     1: {
         initialCost: 25000, 
         ageModifier: {
-            child: 5000, 
-            adult: 15000
+            child: {
+                borders: {
+                    top: 18
+                }, 
+                cost: 5000
+            }, 
+            adult: {
+                borders: {
+                    bottom: 18
+                }, 
+                cost: 15000
+            }
         }, 
-        corsetHeightModifier: {
+        corsetHeights: {
             0: 0, 
             1: 10000
         }, 

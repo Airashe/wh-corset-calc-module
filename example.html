@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WH corsets cost calculator example page</title>
+        <script type="module" src="./src/index.js"></script>
+    </head>
+    <body>
+        <div>
+            <p>Your weight:</p>
+            <p><input id="wh-cost-calc-input-weight" type="number"></p>
+            <p>Your height:</p>
+            <p><input id="wh-cost-calc-input-height" type="number"></p>
+            <p>Your age:</p>
+            <p><input id="wh-cost-calc-input-age" type="number"></p>
+            <p>Corsets type:</p>
+            <p>
+                <select id="wh-cost-calc-input-corset-type">
+                    <option value="0">Monolit</option>
+                    <option value="1">Turtle</option>
+                </select>
+            </p>
+            <p>Corsets height:</p>
+            <p>
+                <select id="wh-cost-calc-input-corset-height-type">
+                    <option value="0">Low</option>
+                    <option value="1">High</option>
+                </select>
+            </p>
+            <p>Result: <b id="wh-cost-calc-output-result"></b> RUB.</p>
+        </div>
+    </body>
+</html>

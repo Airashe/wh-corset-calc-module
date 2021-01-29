@@ -81,7 +81,6 @@ export const InitializeModule = () => {
  */
 const OnInputChange = (event, paramName) => {
     values[paramName] = DOMValueToModuleValue(event.target.value);
-    console.log(values);
     Calculate();
 }
 
@@ -107,43 +106,66 @@ const Calculate = () => {
     let newResult = 0;
     if(corsetCollection[values.inputCorsetType] !== undefined) {
         let corsetData = corsetCollection[values.inputCorsetType];
-        newResult = corsetData.initialCost;
-        newResult += values.inputAge < 18 ? corsetData.ageModifier.child : corsetData.ageModifier.adult;
+        newResult = corsetData.initialCost !== undefined ? corsetData.initialCost : 0;
+
+        if(corsetData.ageModifier !== undefined)
+            newResult += CalculateModifierObject(corsetData.ageModifier, values.inputAge);
         
-        let heightResult = corsetData.corsetHeightModifier[values.inputCorsetHeightType];
-        if(values.inputAge < 18)
-            heightResult /= 2;
-        newResult += heightResult;
-
-        let height = values.inputHeight > 5 ? values.inputHeight / 100 : values.inputHeight;
-        let bmi = (values.inputWeight/(Math.pow(height, 2))).toFixed(2);
-        if(bmi === "NaN" || bmi === "Infinity") {
-            bmi = 0;
+        if(corsetData.corsetHeights !== undefined && corsetData.corsetHeights[values.inputCorsetHeightType] !== undefined) {
+            let heightResult = corsetData.corsetHeights[values.inputCorsetHeightType];
+            if(values.inputAge < 18)
+                heightResult /= 2;
+            newResult += heightResult;
+            heightResult = null;
         }
-        for(let key in corsetData.bmiModifiers) {
 
-            let bottomValue = corsetData.bmiModifiers[key].borders.bottom !== undefined ? 
-                                corsetData.bmiModifiers[key].borders.bottom : 0;
-            let topValue = corsetData.bmiModifiers[key].borders.top !== undefined ? 
-                            corsetData.bmiModifiers[key].borders.top : Infinity;
-            let cost = corsetData.bmiModifiers[key].cost !== undefined ? 
-                            corsetData.bmiModifiers[key].cost : 0;
+        if(corsetData.bmiModifier !== undefined) {
+            let height = values.inputHeight > 5 ? values.inputHeight / 100 : values.inputHeight;
+            let bmi = (values.inputWeight/(Math.pow(height, 2))).toFixed(2);
+            if(bmi === "NaN" || bmi === "Infinity")
+                bmi = 0;
 
-            if(corsetData.bmiModifiers[key].extraCost !== undefined) {
-                let extraUnits = bmi - bottomValue;
-                cost += extraUnits*corsetData.bmiModifiers[key].extraCost;
-                
-            }
-
-            if(bmi > bottomValue && bmi <= topValue) {
-                newResult += cost;
-                break;
-            }
+            newResult += CalculateModifierObject(corsetData.bmiModifier, bmi);
         }
+        
     }
     values.outputResultCost = newResult;
     SetResult();
 }
+
+/**
+ * Reads modifier data and return additional 
+ * cost defined by it's parameters.
+ * 
+ * @param {object}  modifier    Modifier's data.
+ * @param {int}     value       Input value for this modifier. 
+ * 
+ * @return {int} Additional cost.
+ */
+const CalculateModifierObject = (modifier, value) => {
+    let result = 0;
+
+    for(let modifierKey in modifier) {
+
+        let borderTop = Infinity;
+        let borderBottom = 0;
+        if(modifier[modifierKey].borders !== undefined) {
+            borderBottom = modifier[modifierKey].borders.bottom !== undefined ? modifier[modifierKey].borders.bottom : 0;
+            borderTop = modifier[modifierKey].borders.top !== undefined ? modifier[modifierKey].borders.top : Infinity;
+        }
+        let cost = modifier[modifierKey].cost !== undefined ? modifier[modifierKey].cost : 0;
+        let extraCostPerUnit = modifier[modifierKey].extraCost !== undefined ? modifier[modifierKey].extraCost : 0;
+
+        if(value >= borderBottom && value < borderTop) {
+            result += cost;
+            if(extraCostPerUnit !== 0)
+                result += (value - borderBottom)*extraCostPerUnit;
+            break;
+        }
+    }
+
+    return Number.parseInt(result, 10);
+};
 
 /**
  * Set result to DOM element.
