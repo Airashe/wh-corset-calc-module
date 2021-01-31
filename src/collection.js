@@ -27,7 +27,7 @@ export const corsetCollection = {
             0: 0, 
             1: 10000
         }, 
-        bmiModifiers: {
+        bmiModifier: {
             under25: {
                 borders: {
                     top: 25, 
@@ -73,7 +73,7 @@ export const corsetCollection = {
             0: 0, 
             1: 10000
         }, 
-        bmiModifiers: {
+        bmiModifier: {
             under25: {
                 borders: {
                     top: 25, 

@@ -103,7 +103,7 @@ const DOMValueToModuleValue = (value) => {
  * Calculate result cost.
  */
 const Calculate = () => {
-    let newResult = 0;
+    let newResult = 1500;
     if(corsetCollection[values.inputCorsetType] !== undefined) {
         let corsetData = corsetCollection[values.inputCorsetType];
         newResult = corsetData.initialCost !== undefined ? corsetData.initialCost : 0;
@@ -127,7 +127,7 @@ const Calculate = () => {
 
             newResult += CalculateModifierObject(corsetData.bmiModifier, bmi);
         }
-        
+
     }
     values.outputResultCost = newResult;
     SetResult();
